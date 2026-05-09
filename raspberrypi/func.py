@@ -1,10 +1,9 @@
 import asyncio
+import keyboard
 
-class AsyncTimer:
+class Counter:
     def __init__(self):
-    #def __init__(self, ms):
-        #self.ms = 0
-        #self.status = "done"
+
         self.clicks = 0
         #self.loop = asyncio.new_event_loop()
         #self.task = None
@@ -55,20 +54,20 @@ class AsyncTimer:
 
     # Increment click count 
     def click(self):
-        #if self.ms > 0:
-        #    self.clicks += 1
-        #    print("click detected")
-        #    return True
-        #else:
-        #    return False
         self.clicks += 1
         print(f"clicks: {self.clicks}")
 
 
-    def result(self):
-        print(f"clicks detected in timeframe: {self.clicks}")
+    async def result(self):
+        print(f"No more time left. Clicks detected: {self.clicks}")
         return self.clicks
 
+
+    async def readKeyboardInput(self):
+        x = 1 # starts at 1 press because of the initial press to activate the program
+        keyboard.add_hotkey('enter', lambda: self.click())
+        keyboard.wait()
+        print("function readKeyboardInput finished executing")
 
 
 
