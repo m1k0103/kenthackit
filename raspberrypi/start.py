@@ -1,7 +1,7 @@
 import requests
 import asyncio
 import keyboard
-from func import AsyncTimer
+from func import Counter, timer
 
 
 
@@ -9,37 +9,30 @@ from func import AsyncTimer
 async def main():
     print("started")
 
+    SLEEPTIME = 1
+
     # create AsyncTimer object
-    timer = AsyncTimer()
-    
+    counter = Counter()
+
+    kt = asyncio.create_task(counter.readKeyboardInput())
+    t = asyncio.create_task(timer(SLEEPTIME,kt))
+
     try:
-        async with asyncio.timeout(None) as timeout:
-            #keyboard.add_hotkey('enter', lambda: timer.click())
+        # Wait for initial key press
+        keyboard.wait('enter')
+        print("initial enter key has been pressed")
 
-            # listen for input
-            print("listening for input")
-            keyboard.wait('enter')
-            if keyboard.is_pressed("enter"):
-                
-                deadline = asyncio.get_running_loop().time() + 5000 # change to 0.5 later
-                timeout.reschedule(deadline)
-
-                print("rescheduling deadline")
-                await asyncio.create_task(timer.readKeyboardInput())
-
-                #await timer.readKeyboardInput()
-                print(timeout.expired())
-
-            #print("deadline expired")
-            #r = await timer.result()
-            #print(r)
-
-    # if time runs out, 
+        await t
+        await kt
     except asyncio.TimeoutError:
-        pass
-    
-    r = await timer.result()
-    print(r)
+        print("Time has ran out.")
+
+    result = counter.result()
+    print(result)
+
+
+
+
 
 
 if __name__ == "__main__":
