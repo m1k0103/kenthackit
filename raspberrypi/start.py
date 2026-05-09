@@ -2,6 +2,11 @@ import requests
 import asyncio
 import keyboard
 from func import Counter, timer
+import pyyaml
+
+
+def initialStart():
+    pass
 
 
 
