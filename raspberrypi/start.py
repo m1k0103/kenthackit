@@ -1,38 +1,37 @@
 import requests
-from func import AsyncTimer
 import asyncio
+import keyboard
+from func import AsyncTimer
 
 
 
+
+# https://superfastpython.com/asyncio-timeout/
 async def main():
     print("started")
 
     # create AsyncTimer object
-    timer = AsyncTimer(2000)
+    timer = AsyncTimer()
     
-    async with asyncio.TaskGroup() as tg:
-        task = tg.create_task(timer.start())
-    print(f"Task execution complete. Result: {task.result}")
-
     
-    #await timer.start()
-    #await timer.click()
-    #await timer.click()
+    try:
+        async with asyncio.timeout(None) as timeout:
+            keyboard.add_hotkey('enter', lambda: timer.click())
 
-    quit()
+            # listen for input
+            print("listening for input")
+            keyboard.wait()
+            if keyboard.is_pressed("enter"):
+                
+                deadline = asyncio.get_running_loop().time() + 2 # change to 0.5 later
+                timeout.reschedule(deadline)
+                print("enter pressed. rescheduling deadline")
 
-    # wait for an input (mouse click in the future)
-    #while True:
-    #    input("waiting")
-    #    timer.start()
-    #    timer.click()
-    #    print("clicked")
+
+    except asyncio.TimeoutError:
+        r = timer.result()
+        print(r)
         
-     
-        
-
-
 
 if __name__ == "__main__":
-    #main()
     asyncio.run(main())
