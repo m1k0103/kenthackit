@@ -1,68 +1,73 @@
 import asyncio
 
 class AsyncTimer:
-    def __init__(self, ms):
-        self.ms = 0
-        self.status = "done"
+    def __init__(self):
+    #def __init__(self, ms):
+        #self.ms = 0
+        #self.status = "done"
         self.clicks = 0
-        self.loop = asyncio.new_event_loop()
-        self.task = None
+        #self.loop = asyncio.new_event_loop()
+        #self.task = None
 
 
-    # Start the timer
-    async def start(self):
-        # if the timer is not running and still hasnt 
-        if (self.status == "done") & (self.ms != 0):
-            self.status == "running"
-
-            self.task = self.loop.create_task(self.step())
-            self.loop.run_forever()
-            
-        if self.status == "running":
-            print("is already running. do nothing")
-        
-        try:
-            self.loop.run_until_complete(self.task)
-            print("started loop")
-        finally:
-            return self.clicks
+    ## Start the timer
+    #async def start(self):
+    #    # if the timer is not running and still hasnt 
+    #    if (self.status == "done") & (self.ms != 0):
+    #        self.status == "running"
+#
+    #        self.task = self.loop.create_task(self.step())
+    #        self.loop.run_forever()
+    #        
+    #    if self.status == "running":
+    #        print("is already running. do nothing")
+    #    
+    #    try:
+    #        self.loop.run_until_complete(self.task)
+    #        print("started loop")
+    #    finally:
+    #        return self.clicks
 
 
 
     # Step. Decrease the amount of milliseconds remaining.
-    async def step(self):
-        #if self.ms > 0:
-        #    self.ms -= 1
-        #    return self.ms
-        #else:
-        #    return False
-        while status == "running":
-            if self.ms > 0:
-                self.ms -= 1
-                print(self.ms)
-                await asyncio.sleep(0.001) # Wait 1 ms. Check again if time has ran out.
-            else:
-                print("Timer has finished")
-                self.status = "done"
-                self.loop.stop()
-                done()
-        
+    #async def step(self):
+    #    #if self.ms > 0:
+    #    #    self.ms -= 1
+    #    #    return self.ms
+    #    #else:
+    #    #    return False
+    #    while status == "running":
+    #        if self.ms > 0:
+    #            self.ms -= 1
+    #            print(self.ms)
+    #            await asyncio.sleep(0.001) # Wait 1 ms. Check again if time has ran out.
+    #        else:
+    #            print("Timer has finished")
+    #            self.status = "done"
+    #            self.loop.stop()
+    #            done()
+    #    
 
         # No more steps to do. No more time
 
 
 
     # Increment click count 
-    async def click(self):
-        if self.ms > 0:
-            self.clicks += 1
-            print("click detected")
-            return True
-        else:
-            return False
+    def click(self):
+        #if self.ms > 0:
+        #    self.clicks += 1
+        #    print("click detected")
+        #    return True
+        #else:
+        #    return False
+        self.clicks += 1
+        print(f"clicks: {self.clicks}")
 
 
-
+    def result(self):
+        print(f"clicks detected in timeframe: {self.clicks}")
+        return self.clicks
 
 
 
