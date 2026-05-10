@@ -11,6 +11,12 @@ from func import (
     get_sms_text, VALID_DEVICE_IDS
 )
 
+# for loading ngrok (reverse proxy) configuration on miko laptop
+import ngrok
+from dotenv import load_dotenv
+load_dotenv()
+
+
 app = Flask(__name__)
 CORS(app)
 
@@ -192,3 +198,24 @@ def ping():
 @app.errorhandler(404)
 def http_error(e):
     return jsonify({"error": e.description}), e.code
+
+
+
+
+# ------- NGROK DO NOT TOUCH ----------
+
+# Connects to ngrok directly
+def connect_ngrok():
+    forwarder = ngrok.forward("localhost:5000", authtoken_from_env=True)
+    print(f"Available at: {forwarder.url()}")
+    import subprocess
+    #subprocess.run .split(" ")
+    subprocess.call(f"""./transferToPi.sh -s {forwarder.url()}""".split(" "))
+
+
+# Tries to execute above function
+try:
+    connect_ngrok()
+except Exception as e:
+    print("Not on miko laptop. Connecting to ngrok wont work")
+    print(e)
