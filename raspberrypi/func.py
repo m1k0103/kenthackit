@@ -57,12 +57,12 @@ def updateConfigServerUrl():
 def sendRequest(count):
     serverUrl = getServerUrl()
     params = {
-        "serverUrl":serverUrl,
         "device_id":getDeviceId(),
-        "lon":"51.2376323",
-        "lat":"1.2682091"
+        "press_count":count,
+        "lon":"1.2682091",
+        "lat":"51.2376323"
     }
-    r = requests.post(url=serverUrl, params=params)
+    r = requests.post(url=f"{serverUrl}/alert", json=params)
     if r.ok:
         print("request to server sent successfully")
     else:
