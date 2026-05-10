@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register — SafeSignal</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="Homepage.html">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2L4 5v6c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V5l-8-3z"/></svg>
+    </div>
+    SafeSignal
+  </a>
+  <div class="links">
+    <a href="Homepage.html">Home</a>
+    <a href="Login.html" class="nav-btn">Sign in</a>
+  </div>
+</nav>
+
+<div class="page" style="max-width:520px;">
+
+  <div class="step-bar">
+    <div class="step-item active">
+      <div class="step-circle active">1</div>
+      <span>Your details</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step-item">
+      <div class="step-circle">2</div>
+      <span>Contacts</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step-item">
+      <div class="step-circle">3</div>
+      <span>Dashboard</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Create your account</h2>
+    <p class="card-sub">
+      Enter the Device ID printed on your SafeSignal hardware.
+      Already registered? <a href="Login.html" style="color:var(--blue);font-weight:500;">Sign in here &rarr;</a>
+    </p>
+
+    <div id="msg" class="msg"></div>
+
+    <form id="registerForm" autocomplete="off">
+
+      <label class="field-label">Device ID</label>
+      <input id="device_id" placeholder="e.g. bc9d0d6146fed67f" autocomplete="off" required/>
+
+      <label class="field-label" style="margin-top:.8rem;">Full name</label>
+      <input id="name" placeholder="Your name" required/>
+
+      <label class="field-label" style="margin-top:.8rem;">Email address</label>
+      <input id="email" type="email" placeholder="you@example.com" required/>
+
+      <label class="field-label" style="margin-top:.8rem;">Password</label>
+      <input id="password" type="password" placeholder="Choose a password" required/>
+
+      <label class="field-label" style="margin-top:.8rem;">
+        Medical notes
+        <span style="font-weight:400;text-transform:none;color:var(--ink-4);"> — optional</span>
+      </label>
+      <input id="medical_notes" placeholder="e.g. diabetic, penicillin allergy"/>
+
+      <button type="submit" class="btn" style="width:100%;margin-top:1.2rem;" id="submitBtn">
+        Continue to contacts &rarr;
+      </button>
+    </form>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

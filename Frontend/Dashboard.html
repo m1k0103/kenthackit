@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard — SafeSignal</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="Homepage.html">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2L4 5v6c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V5l-8-3z"/></svg>
+    </div>
+    SafeSignal
+  </a>
+  <div class="links">
+    <a href="Homepage.html">Home</a>
+    <span id="nav-user" style="font-size:.85rem;color:var(--ink-3);padding:7px 14px;"></span>
+    <button onclick="logout()" class="nav-btn" style="border:none;cursor:pointer;font-family:var(--f-ui);font-size:.875rem;">Sign out</button>
+  </div>
+</nav>
+
+<div class="page">
+
+  <div class="card">
+    <h2>Send alert</h2>
+    <p class="card-sub">
+      Simulate your Raspberry Pi button press. Your live GPS location will be sent via SMS to the matching contact.
+    </p>
+    <div class="alert-grid">
+
+      <button class="alert-btn fam" onclick="sendAlert(1)">
+        <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+        <span class="alert-btn-label">Family alert</span>
+        <span class="alert-btn-sub">1 press</span>
+      </button>
+
+      <button class="alert-btn pol" onclick="sendAlert(2)">
+        <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4l5 2.18V11c0 3.5-2.33 6.79-5 7.93C9.33 17.79 7 14.5 7 11V7.18L12 5z"/></svg>
+        <span class="alert-btn-label">Police alert</span>
+        <span class="alert-btn-sub">2 presses</span>
+      </button>
+
+      <button class="alert-btn med" onclick="sendAlert(3)">
+        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+        <span class="alert-btn-label">Medical alert</span>
+        <span class="alert-btn-sub">3 presses</span>
+      </button>
+
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Recent alerts</h2>
+    <p class="card-sub">Every alert sent from this device.</p>
+    <div id="alertList">
+      <div class="empty-state">Loading alerts...</div>
+    </div>
+  </div>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

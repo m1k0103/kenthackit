@@ -5,7 +5,11 @@ from datetime import datetime
 import os
 import re
 
-from func import load_users, save_users, load_alerts, save_alerts, get_sms_text
+from func import (
+    load_users, save_users,
+    load_alerts, save_alerts,
+    get_sms_text, VALID_DEVICE_IDS
+)
 
 app = Flask(__name__)
 CORS(app)
@@ -13,6 +17,8 @@ CORS(app)
 VALID_PRESS_COUNTS = {1, 2, 3}
 PHONE_RE = re.compile(r"^\+?[1-9]\d{6,14}$")
 
+
+# ── helpers ───────────────────────────────────────────────────────────────────
 
 def _require_json(*fields):
     data = request.get_json(silent=True) or {}
@@ -23,8 +29,8 @@ def _require_json(*fields):
 
 
 def _send_sms(to_number, body):
-    sid = os.environ.get("TWILIO_SID")
-    token = os.environ.get("TWILIO_TOKEN")
+    sid      = os.environ.get("TWILIO_SID")
+    token    = os.environ.get("TWILIO_TOKEN")
     from_num = os.environ.get("TWILIO_NUM")
 
     if not (sid and token and from_num):
@@ -39,9 +45,22 @@ def _send_sms(to_number, body):
         return "failed"
 
 
+# ── routes ────────────────────────────────────────────────────────────────────
+
 @app.route("/register", methods=["POST"])
 def register():
-    data = _require_json("device_id", "name", "email")
+    data = _require_json("device_id", "name", "email", "password")
+
+    device_id = data["device_id"]
+
+    # only known device IDs can register
+    if device_id not in VALID_DEVICE_IDS:
+        return jsonify({"error": "Device ID not recognised. Check the ID printed on your device."}), 400
+
+    users = load_users()
+
+    if device_id in users:
+        return jsonify({"error": "Device already registered. Please sign in."}), 400
 
     contacts_raw = data.get("contacts", {})
     contacts = {}
@@ -50,21 +69,42 @@ def register():
         if not isinstance(contact, dict) or not contact.get("name") or not contact.get("phone"):
             abort(400, description=f"Contact {key} needs 'name' and 'phone'.")
         if not PHONE_RE.match(contact["phone"]):
-            abort(400, description=f"Contact {key} phone number looks invalid.")
+            abort(400, description=f"Contact {key} phone number looks invalid. Use international format e.g. +447700000000")
         contacts[key] = {"name": contact["name"], "phone": contact["phone"]}
 
-    users = load_users()
-    users[data["device_id"]] = {
-        "device_id": data["device_id"],
-        "name": data["name"],
-        "email": data["email"],
+    users[device_id] = {
+        "device_id":     device_id,
+        "name":          data["name"],
+        "email":         data["email"],
+        "password":      data["password"],
         "medical_notes": data.get("medical_notes", ""),
-        "contacts": contacts,
+        "contacts":      contacts,
         "registered_at": datetime.now().isoformat(),
     }
     save_users(users)
 
-    return jsonify({"status": "registered", "device_id": data["device_id"]}), 201
+    return jsonify({"status": "registered", "device_id": device_id}), 201
+
+
+@app.route("/login", methods=["POST"])
+def login():
+    data = _require_json("device_id", "password")
+
+    users = load_users()
+    user  = users.get(data["device_id"])
+
+    if not user:
+        return jsonify({"error": "Device not found. Check your ID or register first."}), 404
+
+    if user["password"] != data["password"]:
+        return jsonify({"error": "Incorrect password."}), 401
+
+    return jsonify({
+        "status":    "ok",
+        "device_id": user["device_id"],
+        "name":      user["name"],
+        "email":     user["email"],
+    }), 200
 
 
 @app.route("/alert", methods=["POST"])
@@ -84,30 +124,30 @@ def alert():
     if data["device_id"] not in users:
         abort(404, description="Device not registered.")
 
-    user = users[data["device_id"]]
+    user    = users[data["device_id"]]
     contact = user["contacts"][str(press_count)]
 
-    sms_text = get_sms_text(user, press_count, lat, lon)
+    sms_text   = get_sms_text(user, press_count, lat, lon)
     sms_status = _send_sms(contact["phone"], sms_text)
 
     alerts = load_alerts()
     alerts.append({
-        "device_id": data["device_id"],
-        "user_name": user["name"],
-        "press_count": press_count,
-        "contact_name": contact["name"],
+        "device_id":     data["device_id"],
+        "user_name":     user["name"],
+        "press_count":   press_count,
+        "contact_name":  contact["name"],
         "contact_phone": contact["phone"],
-        "lat": lat,
-        "lon": lon,
-        "time": datetime.now().isoformat(),
-        "sms_status": sms_status,
+        "lat":           lat,
+        "lon":           lon,
+        "time":          datetime.now().isoformat(),
+        "sms_status":    sms_status,
     })
     save_alerts(alerts)
 
     return jsonify({
-        "status": "alert sent",
+        "status":  "alert sent",
         "contact": contact["name"],
-        "sms": sms_status,
+        "sms":     sms_status,
     }), 200
 
 
@@ -115,16 +155,16 @@ def alert():
 def get_alerts():
     alerts = list(reversed(load_alerts()))
     try:
-        page = max(1, int(request.args.get("page", 1)))
+        page     = max(1, int(request.args.get("page", 1)))
         per_page = min(200, max(1, int(request.args.get("per_page", 50))))
     except ValueError:
         abort(400, description="page and per_page must be integers.")
     start = (page - 1) * per_page
     return jsonify({
-        "total": len(alerts),
-        "page": page,
+        "total":    len(alerts),
+        "page":     page,
         "per_page": per_page,
-        "alerts": alerts[start:start + per_page],
+        "alerts":   alerts[start:start + per_page],
     }), 200
 
 
@@ -135,8 +175,9 @@ def get_user(device_id):
         abort(404, description="User not found.")
     user = users[device_id]
     return jsonify({
-        "name": user["name"],
-        "device_id": user["device_id"],
+        "name":          user["name"],
+        "email":         user.get("email", ""),
+        "device_id":     user["device_id"],
         "registered_at": user["registered_at"],
     }), 200
 
@@ -147,6 +188,7 @@ def ping():
 
 
 @app.errorhandler(400)
+@app.errorhandler(401)
 @app.errorhandler(404)
 def http_error(e):
     return jsonify({"error": e.description}), e.code

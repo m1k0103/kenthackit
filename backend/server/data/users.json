@@ -1,0 +1,45 @@
+{
+  "bc9d6146fed67f": {
+    "device_id": "bc9d6146fed67f",
+    "name": "Haz",
+    "email": "you@example.com",
+    "medical_notes": "",
+    "contacts": {
+      "1": {
+        "name": "P",
+        "phone": "+447777777777"
+      },
+      "2": {
+        "name": "L",
+        "phone": "+447777777777"
+      },
+      "3": {
+        "name": "M",
+        "phone": "+447777777777"
+      }
+    },
+    "registered_at": "2026-05-10T07:59:42.643470"
+  },
+  "bc9d0d6146fed67f": {
+    "device_id": "bc9d0d6146fed67f",
+    "name": "HAZ",
+    "email": "you@example.com",
+    "password": "KentHackit",
+    "medical_notes": "",
+    "contacts": {
+      "1": {
+        "name": "s",
+        "phone": "+447700000000"
+      },
+      "2": {
+        "name": "s",
+        "phone": "+447700000000"
+      },
+      "3": {
+        "name": "ss",
+        "phone": "+447700000000"
+      }
+    },
+    "registered_at": "2026-05-10T08:13:14.336177"
+  }
+}

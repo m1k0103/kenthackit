@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign In — SafeSignal</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="Homepage.html">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2L4 5v6c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V5l-8-3z"/></svg>
+    </div>
+    SafeSignal
+  </a>
+  <div class="links">
+    <a href="Homepage.html">Home</a>
+    <a href="Register.html" class="nav-btn">Register</a>
+  </div>
+</nav>
+
+<div class="page" style="max-width:480px;">
+  <div class="card">
+    <h2>Sign in</h2>
+    <p class="card-sub">
+      Use your device ID and the password you set when registering.
+      New here? <a href="Register.html" style="color:var(--blue);font-weight:500;">Create an account &rarr;</a>
+    </p>
+
+    <div id="msg" class="msg"></div>
+
+    <form id="loginForm" autocomplete="off">
+      <label class="field-label">Device ID</label>
+      <input id="device_id" placeholder="e.g. bc9d0d6146fed67f" autocomplete="off" required/>
+
+      <label class="field-label" style="margin-top:.8rem;">Password</label>
+      <input id="password" type="password" placeholder="Your password" required/>
+
+      <button type="submit" class="btn" style="width:100%;margin-top:1.2rem;" id="submitBtn">
+        Sign in &rarr;
+      </button>
+    </form>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Setup Contacts — SafeSignal</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="Homepage.html">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2L4 5v6c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V5l-8-3z"/></svg>
+    </div>
+    SafeSignal
+  </a>
+  <div class="links">
+    <a href="Homepage.html">Home</a>
+  </div>
+</nav>
+
+<div class="page" style="max-width:560px;">
+
+  <div class="step-bar">
+    <div class="step-item">
+      <div class="step-circle done">&#10003;</div>
+      <span>Your details</span>
+    </div>
+    <div class="step-line done"></div>
+    <div class="step-item active">
+      <div class="step-circle active">2</div>
+      <span>Contacts</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step-item">
+      <div class="step-circle">3</div>
+      <span>Dashboard</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Add emergency contacts</h2>
+    <p class="card-sub">
+      These contacts receive an SMS with your live GPS location when you press the device.
+      Add one per press pattern — name and phone number.
+    </p>
+
+    <div id="msg" class="msg"></div>
+
+    <form id="setupForm">
+
+      <h3>1 press &mdash; Family</h3>
+      <div class="field-row">
+        <input id="c1_name"  placeholder="Contact name" required/>
+        <input id="c1_phone" placeholder="+447700000000" required/>
+      </div>
+
+      <h3>2 presses &mdash; Police</h3>
+      <div class="field-row">
+        <input id="c2_name"  placeholder="Contact name" required/>
+        <input id="c2_phone" placeholder="+447700000000" required/>
+      </div>
+
+      <h3>3 presses &mdash; Medical</h3>
+      <div class="field-row">
+        <input id="c3_name"  placeholder="Contact name" required/>
+        <input id="c3_phone" placeholder="+447700000000" required/>
+      </div>
+
+      <button type="submit" class="btn" style="width:100%;margin-top:1.4rem;" id="submitBtn">
+        Save contacts &amp; go to dashboard &rarr;
+      </button>
+    </form>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

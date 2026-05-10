@@ -1,0 +1,35 @@
+[
+  {
+    "device_id": "bc9d0d6146fed67f",
+    "user_name": "HAZ",
+    "press_count": 1,
+    "contact_name": "s",
+    "contact_phone": "+447700000000",
+    "lat": 51.29417535206496,
+    "lon": 1.06331429709323,
+    "time": "2026-05-10T08:14:16.026176",
+    "sms_status": "skipped"
+  },
+  {
+    "device_id": "bc9d0d6146fed67f",
+    "user_name": "HAZ",
+    "press_count": 2,
+    "contact_name": "s",
+    "contact_phone": "+447700000000",
+    "lat": 51.29417535206496,
+    "lon": 1.06331429709323,
+    "time": "2026-05-10T08:14:19.258700",
+    "sms_status": "skipped"
+  },
+  {
+    "device_id": "bc9d0d6146fed67f",
+    "user_name": "HAZ",
+    "press_count": 3,
+    "contact_name": "ss",
+    "contact_phone": "+447700000000",
+    "lat": 51.29417535206496,
+    "lon": 1.06331429709323,
+    "time": "2026-05-10T08:14:22.860945",
+    "sms_status": "skipped"
+  }
+]

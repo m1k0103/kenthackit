@@ -3,8 +3,11 @@ import os
 import threading
 from datetime import datetime
 
-USERS_FILE = "data/users.json"
+USERS_FILE  = "data/users.json"
 ALERTS_FILE = "data/alerts.json"
+
+# only this device ID can register
+VALID_DEVICE_IDS = {"bc9d0d6146fed67f"}
 
 _lock = threading.Lock()
 
@@ -44,7 +47,7 @@ def get_maps_link(lat, lon):
 
 
 def get_sms_text(user, press_count, lat, lon):
-    link = get_maps_link(lat, lon)
+    link     = get_maps_link(lat, lon)
     time_now = datetime.now().strftime("%H:%M, %d %b %Y")
 
     if press_count == 1:
