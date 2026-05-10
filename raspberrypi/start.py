@@ -1,18 +1,14 @@
 import requests
 import asyncio
 import keyboard
-from func import Counter, timer
-import pyyaml
-
-
-def initialStart():
-    pass
+from func import Counter, timer, sendRequest, updateConfigServerUrl, getServerUrl, getDeviceId
+import yaml
 
 
 
 # https://superfastpython.com/asyncio-timeout/
-async def main():
-    print("started")
+async def loop():
+    print("loop started")
 
     SLEEPTIME = 1
 
@@ -34,10 +30,16 @@ async def main():
 
     result = counter.result()
     print(result)
+    sendRequest(result) #should work??
 
 
+# main function to run all the other code
+async def main():
+    updateConfigServerUrl()
 
-
+    while True:
+        await loop()
+    
 
 
 if __name__ == "__main__":
